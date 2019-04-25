@@ -156,6 +156,18 @@ $$Y=Y_{-p}+\beta^* P$$
 
 說明此時$E(Y|P)$中P的係數即為$\beta^*$.
 
+ANS:
+
+$\quad E(Y|P)$
+
+$=E(2+\beta^* P+3 rincome+\tilde{\epsilon} |P)$
+
+$=2+\beta^* P+3E(rincome|P)+E(\tilde{\epsilon} |P)$
+
+$=2+\beta^* P$
+
+
+
 ## 2.2 立足點情境A.2
 
 此情境包含兩部份：
@@ -168,6 +180,22 @@ $$Y=Y_{-p}+\beta^* P$$
 
 說明此時$E(Y|P)$中P的係數「不」為$\beta^*$，但$E(Y|P,rincome)$中P的係數為$\beta^*$。
 
+ANS:
+
+$\quad E(Y|P)$
+
+$=2+\beta^* P+3E(rincome|P)+E(\tilde{\epsilon} |P)$
+
+$=2+\beta^* P+3(0.5+P)$
+
+$=2+\beta^* P+1.5+3P$
+
+$=3.5+(3+\beta^*)P$<br/><br/>
+
+$E(Y|P,rincome)=2+\beta^* P+3 rincome$
+
+
+
 ## 2.3 立足點情境A.3
 
 考慮以下兩個情境條件：
@@ -179,6 +207,11 @@ $$Y=Y_{-p}+\beta^* P$$
 即P與$Y_{-p}$有關連：此關連性可來自於【A.2.2】中P與rincome的關連，也可來自於它與「非價格、非所得」引起的銷量之關連（即與$\tilde{\epsilon}$相關部份）
 
 若$E(\tilde{\epsilon}|P)=0.5+2P$，說明不論使用$E(Y|P)$或$E(Y|P,rincome)$，其P之係數都不會是$\beta^*$
+
+ANS:
+
+$E(Y|P,rincome)=2+\beta^* P+3 rincome+E(\tilde{\epsilon} |P,rincome)$
+
 
 ## 2.4 立足點情境A.3+效應情境B.1：TSLS
 
@@ -194,6 +227,21 @@ $$Y=Y_{-p}+\beta^* P$$
 
 若$E(\tilde{\epsilon}|P)=0.5+2P$，說明使用$E(Y|P_z,rincome)$其中$P_z$的係數會是$\beta^*$
 
+ANS:
+
+$\quad P$
+
+$=E(P|z)+[P-E(P|z)]$
+
+$=P_z+(P-P_z)$<br/><br/>
+
+$\quad E(Y|P_z,rincome)$
+
+$=E(2+\beta^* P_z+3 rincome+\tilde{\epsilon}+\delta |P_z,rincome)$
+
+$=2+\beta^* P+3 rincome$
+
+
 ## 2.5 立足點情境A.3+效應情境B.1：複迴歸
 
 承接上題情境，即
@@ -206,6 +254,10 @@ $$Y=Y_{-p}+\beta^* P$$
   
 說明使用$E(Y|P,rincome,z)$其中$P$的係
 數不會是$\beta^*$.
+
+ANS:
+
+$\quad E(Y|P,rincome,Z)=2+\beta^* P+3 rincome+E(\tilde{\epsilon}|P,rincome,Z)$
 
 # 3. 替代變數
 
@@ -225,10 +277,35 @@ $$y_i=\beta^* x_i+\gamma w_i+y_{-x,-w,i}$$
 $$\tilde{x}_i=x_i+\epsilon_i.$$
 請問效應解釋變數使用替代變數下，$\tilde{x}_i$的OLS估計式還有一致性嗎？（驗證$E(y_i|\tilde{x}_i,w_i)$中$\tilde{x_i}$的係數是否為$\beta^*$）要有一致性會需要什麼額外條件嗎？
 
+ANS:
+$y_i=\beta^* (\tilde{x}-\epsilon_i)+\gamma w_i+y_{-x,-w,i}$<br/><br/>
+
+$\quad E(y_i|\tilde{x}_i,w_i)$
+
+$=E(\beta^* (\tilde{x}-\epsilon_i)+\gamma w_i+y_{-x,-w,i}|x_i,w_i)$
+
+$=\beta^* \tilde{x}-\beta^*E(\epsilon_i|\tilde{x}_i,w_i)+\gamma w_i$<br/><br/>
+
+if $E(\epsilon_i|\tilde{x}_i,w_i)=0$
+
+$=\beta^*\tilde{x}+\gamma w_i+y_{-x,-w,i}$
+
+
 ## 3.2
 
 若我們沒有真正的$w_i$資料而改成使用它的替代變數$\tilde{w}_i$進行複迴歸，且令
 $$\tilde{w}_i=w_i+\epsilon_i.$$
 請問控制變數使用替代變數下，$x_i$的OLS估計式還有一致性嗎？（驗證$E(y_i|x_i,\tilde{w}_i)$中$x_i$的係數是否為$\beta^*$）要有一致性會需要什麼額外條件嗎？
 
+ANS:
+$\quad E(y_i|x_i,\tilde{w}_i)$
 
+$=E(\beta^* x+\gamma (\tilde{w}-\epsilon_i)+y_{-x,-w,i}|x_i,\tilde{w}_i)$
+
+$=\beta^* x+\gamma E(\tilde{w}-\epsilon_i|x_i,\tilde{w}_i)+y_{-x,-w,i}$
+
+$=\beta^* x+\gamma \tilde{w}-\gamma E(\epsilon_i|x_i,\tilde{w}_i)+y_{-x,-w,i}$<br/><br/>
+
+if $E(\epsilon_i|x_i,\tilde{w}_i)=0$
+
+$=\beta^* x+\gamma \tilde{w}$
