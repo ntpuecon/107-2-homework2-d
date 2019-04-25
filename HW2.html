@@ -262,10 +262,9 @@ $(document).ready(function () {
 <p>【A.1】P與立足點中的兩部份，<span class="math inline">\(\tilde{\epsilon}\)</span>及<span class="math inline">\(rincome\)</span>，皆無關。</p>
 <p>說明此時<span class="math inline">\(E(Y|P)\)</span>中P的係數即為<span class="math inline">\(\beta^*\)</span>.</p>
 <p>ANS:</p>
-<p><span class="math inline">\(\quad E(Y|P)\)</span></p>
-<p><span class="math inline">\(=E(2+\beta^* P+3 rincome+\tilde{\epsilon} |P)\)</span></p>
-<p><span class="math inline">\(=2+\beta^* P+3E(rincome|P)+E(\tilde{\epsilon} |P)\)</span></p>
-<p><span class="math inline">\(=2+\beta^* P\)</span></p>
+<p><span class="math inline">\(E(Y|P)=E(2+\beta^* P+3 rincome+\tilde{\epsilon} |P)\)</span></p>
+<p><span class="math inline">\(\quad \quad \quad \quad =2+\beta^* P+3E(rincome|P)+E(\tilde{\epsilon} |P)\)</span></p>
+<p><span class="math inline">\(\quad \quad \quad \quad =2+\beta^* P\)</span></p>
 </div>
 <div id="a.2" class="section level2">
 <h2>2.2 立足點情境A.2</h2>
@@ -275,12 +274,11 @@ $(document).ready(function () {
 <p>即P與<span class="math inline">\(Y_{-p}\)</span>有關連，但此關連性來自於【A.2.2】中P與rincome的關連——即<span class="math inline">\(E(rincome|P)\)</span>部份。</p>
 <p>說明此時<span class="math inline">\(E(Y|P)\)</span>中P的係數「不」為<span class="math inline">\(\beta^*\)</span>，但<span class="math inline">\(E(Y|P,rincome)\)</span>中P的係數為<span class="math inline">\(\beta^*\)</span>。</p>
 <p>ANS:</p>
-<p><span class="math inline">\(\quad E(Y|P)\)</span></p>
-<p><span class="math inline">\(=2+\beta^* P+3E(rincome|P)+E(\tilde{\epsilon} |P)\)</span></p>
-<p><span class="math inline">\(=2+\beta^* P+3(0.5+P)\)</span></p>
-<p><span class="math inline">\(=2+\beta^* P+1.5+3P\)</span></p>
-<p><span class="math inline">\(=3.5+(3+\beta^*)P\)</span><br /><br /></p>
-<p><span class="math inline">\(E(Y|P,rincome)=2+\beta^* P+3 rincome\)</span></p>
+<p><span class="math inline">\(\quad E(Y|P)=2+\beta^* P+3E(rincome|P)+E(\tilde{\epsilon} |P)\)</span></p>
+<p><span class="math inline">\(\quad \quad \quad \quad \quad =2+\beta^* P+3(0.5+P)\)</span></p>
+<p><span class="math inline">\(\quad \quad \quad \quad \quad =2+\beta^* P+1.5+3P\)</span></p>
+<p><span class="math inline">\(\quad \quad \quad \quad \quad =3.5+(3+\beta^*)P\)</span><br /><br /></p>
+<p><span class="math inline">\(E(Y|P,rincome)=2+\beta^* P+3E(rincome|P,rincome)+E(\tilde{\epsilon} |P,rincome)\)</span></p>
 </div>
 <div id="a.3" class="section level2">
 <h2>2.3 立足點情境A.3</h2>
@@ -301,12 +299,10 @@ $(document).ready(function () {
 <p>即P與<span class="math inline">\(Y_{-p}\)</span>有關連：此關連性可來自於【A.2.2】中P與rincome的關連，也可來自於它與「非價格、非所得」引起的銷量之關連（即與<span class="math inline">\(\tilde{\epsilon}\)</span>相關部份）——以上是【A.3.1-3.2】的結果；但我們找到工具變數z，可產生【B.1】情境。</p>
 <p>若<span class="math inline">\(E(\tilde{\epsilon}|P)=0.5+2P\)</span>，說明使用<span class="math inline">\(E(Y|P_z,rincome)\)</span>其中<span class="math inline">\(P_z\)</span>的係數會是<span class="math inline">\(\beta^*\)</span></p>
 <p>ANS:</p>
-<p><span class="math inline">\(\quad P\)</span></p>
-<p><span class="math inline">\(=E(P|z)+[P-E(P|z)]\)</span></p>
-<p><span class="math inline">\(=P_z+(P-P_z)\)</span><br /><br /></p>
-<p><span class="math inline">\(\quad E(Y|P_z,rincome)\)</span></p>
-<p><span class="math inline">\(=E(2+\beta^* P_z+3 rincome+\tilde{\epsilon}+\delta |P_z,rincome)\)</span></p>
-<p><span class="math inline">\(=2+\beta^* P+3 rincome\)</span></p>
+<p><span class="math inline">\(P=E(P|z)+[P-E(P|z)]\)</span></p>
+<p><span class="math inline">\(\quad =P_z+(P-P_z)\)</span><br /><br /></p>
+<p><span class="math inline">\(E(Y|P_z,rincome)=E(2+\beta^* P_z+3 rincome+\tilde{\epsilon}+\delta |P_z,rincome)\)</span></p>
+<p><span class="math inline">\(\quad \quad \quad \quad \quad \quad \quad \quad =2+\beta^* P+3 rincome\)</span></p>
 </div>
 <div id="a.3b.1" class="section level2">
 <h2>2.5 立足點情境A.3+效應情境B.1：複迴歸</h2>
@@ -331,22 +327,26 @@ $(document).ready(function () {
 <p>若我們沒有真正的<span class="math inline">\(x_i\)</span>資料而改成使用它的替代變數<span class="math inline">\(\tilde{x}_i\)</span>進行複迴歸，且令 <span class="math display">\[\tilde{x}_i=x_i+\epsilon_i.\]</span> 請問效應解釋變數使用替代變數下，<span class="math inline">\(\tilde{x}_i\)</span>的OLS估計式還有一致性嗎？（驗證<span class="math inline">\(E(y_i|\tilde{x}_i,w_i)\)</span>中<span class="math inline">\(\tilde{x_i}\)</span>的係數是否為<span class="math inline">\(\beta^*\)</span>）要有一致性會需要什麼額外條件嗎？</p>
 <p>ANS:</p>
 <p><span class="math inline">\(y_i=\beta^* (\tilde{x}-\epsilon_i)+\gamma w_i+y_{-x,-w,i}\)</span><br /><br /></p>
-<p><span class="math inline">\(\quad E(y_i|\tilde{x}_i,w_i)\)</span></p>
-<p><span class="math inline">\(=E(\beta^* (\tilde{x}-\epsilon_i)+\gamma w_i+y_{-x,-w,i}|x_i,w_i)\)</span></p>
-<p><span class="math inline">\(=\beta^* \tilde{x}-\beta^*E(\epsilon_i|\tilde{x}_i,w_i)+\gamma w_i\)</span><br /><br /></p>
-<p>if <span class="math inline">\(E(\epsilon_i|\tilde{x}_i,w_i)=0\)</span></p>
-<p><span class="math inline">\(=\beta^*\tilde{x}+\gamma w_i+y_{-x,-w,i}\)</span></p>
+<p><span class="math inline">\(E(y_i|\tilde{x}_i,w_i)=E(\beta^* (\tilde{x}-\epsilon_i)+\gamma w_i+y_{-x,-w,i}|x_i,w_i)\)</span></p>
+<p><span class="math inline">\(\quad \quad \quad \quad \quad =\beta^* \tilde{x}-\beta^*E(\epsilon_i|\tilde{x}_i,w_i)+\gamma w_i\)</span><br /><br /></p>
+<div id="if" class="section level4">
+<h4>if<br /><br /></h4>
+<p><span class="math inline">\(E(\epsilon_i|\tilde{x}_i,w_i)=0\)</span></p>
+<p><span class="math inline">\(\quad \quad \quad \quad \quad =\beta^*\tilde{x}+\gamma w_i+y_{-x,-w,i}\)</span></p>
+</div>
 </div>
 <div id="section-9" class="section level2">
 <h2>3.2</h2>
 <p>若我們沒有真正的<span class="math inline">\(w_i\)</span>資料而改成使用它的替代變數<span class="math inline">\(\tilde{w}_i\)</span>進行複迴歸，且令 <span class="math display">\[\tilde{w}_i=w_i+\epsilon_i.\]</span> 請問控制變數使用替代變數下，<span class="math inline">\(x_i\)</span>的OLS估計式還有一致性嗎？（驗證<span class="math inline">\(E(y_i|x_i,\tilde{w}_i)\)</span>中<span class="math inline">\(x_i\)</span>的係數是否為<span class="math inline">\(\beta^*\)</span>）要有一致性會需要什麼額外條件嗎？</p>
 <p>ANS:</p>
-<p><span class="math inline">\(\quad E(y_i|x_i,\tilde{w}_i)\)</span></p>
-<p><span class="math inline">\(=E(\beta^* x+\gamma (\tilde{w}-\epsilon_i)+y_{-x,-w,i}|x_i,\tilde{w}_i)\)</span></p>
-<p><span class="math inline">\(=\beta^* x+\gamma E(\tilde{w}-\epsilon_i|x_i,\tilde{w}_i)+y_{-x,-w,i}\)</span></p>
-<p><span class="math inline">\(=\beta^* x+\gamma \tilde{w}-\gamma E(\epsilon_i|x_i,\tilde{w}_i)+y_{-x,-w,i}\)</span><br /><br /></p>
-<p>if <span class="math inline">\(E(\epsilon_i|x_i,\tilde{w}_i)=0\)</span></p>
-<p><span class="math inline">\(=\beta^* x+\gamma \tilde{w}\)</span></p>
+<p><span class="math inline">\(E(y_i|x_i,\tilde{w}_i)=E(\beta^* x+\gamma (\tilde{w}-\epsilon_i)+y_{-x,-w,i}|x_i,\tilde{w}_i)\)</span></p>
+<p><span class="math inline">\(\quad \quad \quad \quad \quad =\beta^* x+\gamma E(\tilde{w}-\epsilon_i|x_i,\tilde{w}_i)+y_{-x,-w,i}\)</span></p>
+<p><span class="math inline">\(\quad \quad \quad \quad \quad =\beta^* x+\gamma \tilde{w}-\gamma E(\epsilon_i|x_i,\tilde{w}_i)+y_{-x,-w,i}\)</span><br /><br /></p>
+<div id="if-1" class="section level4">
+<h4>if <br /><br /></h4>
+<p><span class="math inline">\(E(\epsilon_i|x_i,\tilde{w}_i)=0\)</span></p>
+<p><span class="math inline">\(\quad \quad \quad \quad \quad =\beta^* x+\gamma \tilde{w}\)</span></p>
+</div>
 </div>
 </div>
 

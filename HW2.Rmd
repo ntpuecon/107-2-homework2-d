@@ -97,13 +97,11 @@ $$Y=Y_{-p}+\beta^* P$$
 
 ANS:
 
-$\quad E(Y|P)$
+$E(Y|P)=E(2+\beta^* P+3 rincome+\tilde{\epsilon} |P)$
 
-$=E(2+\beta^* P+3 rincome+\tilde{\epsilon} |P)$
+$\quad \quad \quad \quad =2+\beta^* P+3E(rincome|P)+E(\tilde{\epsilon} |P)$
 
-$=2+\beta^* P+3E(rincome|P)+E(\tilde{\epsilon} |P)$
-
-$=2+\beta^* P$
+$\quad \quad \quad \quad =2+\beta^* P$
 
 
 ## 2.2 立足點情境A.2
@@ -120,17 +118,15 @@ $=2+\beta^* P$
 
 ANS:
 
-$\quad E(Y|P)$
+$\quad E(Y|P)=2+\beta^* P+3E(rincome|P)+E(\tilde{\epsilon} |P)$
 
-$=2+\beta^* P+3E(rincome|P)+E(\tilde{\epsilon} |P)$
+$\quad \quad \quad \quad \quad =2+\beta^* P+3(0.5+P)$
 
-$=2+\beta^* P+3(0.5+P)$
+$\quad \quad \quad \quad \quad =2+\beta^* P+1.5+3P$
 
-$=2+\beta^* P+1.5+3P$
+$\quad \quad \quad \quad \quad =3.5+(3+\beta^*)P$<br/><br/>
 
-$=3.5+(3+\beta^*)P$<br/><br/>
-
-$E(Y|P,rincome)=2+\beta^* P+3 rincome$
+$E(Y|P,rincome)=2+\beta^* P+3E(rincome|P,rincome)+E(\tilde{\epsilon} |P,rincome)$
 
 
 ## 2.3 立足點情境A.3
@@ -165,17 +161,13 @@ $E(Y|P,rincome)=2+\beta^* P+3 rincome+E(\tilde{\epsilon} |P,rincome)$
 
 ANS:
 
-$\quad P$
+$P=E(P|z)+[P-E(P|z)]$
 
-$=E(P|z)+[P-E(P|z)]$
+$\quad =P_z+(P-P_z)$<br/><br/>
 
-$=P_z+(P-P_z)$<br/><br/>
+$E(Y|P_z,rincome)=E(2+\beta^* P_z+3 rincome+\tilde{\epsilon}+\delta |P_z,rincome)$
 
-$\quad E(Y|P_z,rincome)$
-
-$=E(2+\beta^* P_z+3 rincome+\tilde{\epsilon}+\delta |P_z,rincome)$
-
-$=2+\beta^* P+3 rincome$
+$\quad \quad \quad \quad \quad \quad \quad \quad =2+\beta^* P+3 rincome$
 
 ## 2.5 立足點情境A.3+效應情境B.1：複迴歸
 
@@ -216,15 +208,15 @@ ANS:
 
 $y_i=\beta^* (\tilde{x}-\epsilon_i)+\gamma w_i+y_{-x,-w,i}$<br/><br/>
 
-$\quad E(y_i|\tilde{x}_i,w_i)$
+$E(y_i|\tilde{x}_i,w_i)=E(\beta^* (\tilde{x}-\epsilon_i)+\gamma w_i+y_{-x,-w,i}|x_i,w_i)$
 
-$=E(\beta^* (\tilde{x}-\epsilon_i)+\gamma w_i+y_{-x,-w,i}|x_i,w_i)$
+$\quad \quad \quad \quad \quad =\beta^* \tilde{x}-\beta^*E(\epsilon_i|\tilde{x}_i,w_i)+\gamma w_i$<br/><br/>
 
-$=\beta^* \tilde{x}-\beta^*E(\epsilon_i|\tilde{x}_i,w_i)+\gamma w_i$<br/><br/>
+####if<br/><br/>
 
-if $E(\epsilon_i|\tilde{x}_i,w_i)=0$
+$E(\epsilon_i|\tilde{x}_i,w_i)=0$
 
-$=\beta^*\tilde{x}+\gamma w_i+y_{-x,-w,i}$
+$\quad \quad \quad \quad \quad =\beta^*\tilde{x}+\gamma w_i+y_{-x,-w,i}$
 
 ## 3.2
 
@@ -234,17 +226,17 @@ $$\tilde{w}_i=w_i+\epsilon_i.$$
 
 ANS:
 
-$\quad E(y_i|x_i,\tilde{w}_i)$
+$E(y_i|x_i,\tilde{w}_i)=E(\beta^* x+\gamma (\tilde{w}-\epsilon_i)+y_{-x,-w,i}|x_i,\tilde{w}_i)$
 
-$=E(\beta^* x+\gamma (\tilde{w}-\epsilon_i)+y_{-x,-w,i}|x_i,\tilde{w}_i)$
+$\quad \quad \quad \quad \quad =\beta^* x+\gamma E(\tilde{w}-\epsilon_i|x_i,\tilde{w}_i)+y_{-x,-w,i}$
 
-$=\beta^* x+\gamma E(\tilde{w}-\epsilon_i|x_i,\tilde{w}_i)+y_{-x,-w,i}$
+$\quad \quad \quad \quad \quad =\beta^* x+\gamma \tilde{w}-\gamma E(\epsilon_i|x_i,\tilde{w}_i)+y_{-x,-w,i}$<br/><br/>
 
-$=\beta^* x+\gamma \tilde{w}-\gamma E(\epsilon_i|x_i,\tilde{w}_i)+y_{-x,-w,i}$<br/><br/>
+####if <br/><br/>
 
-if $E(\epsilon_i|x_i,\tilde{w}_i)=0$
+$E(\epsilon_i|x_i,\tilde{w}_i)=0$
 
-$=\beta^* x+\gamma \tilde{w}$
+$\quad \quad \quad \quad \quad =\beta^* x+\gamma \tilde{w}$
 
 
 
