@@ -182,7 +182,8 @@ $\quad \quad \quad \quad \quad =2+\beta^* P+3(0.5+P)$
 $\quad \quad \quad \quad \quad =2+\beta^* P+1.5+3P$
 
 $\quad \quad \quad \quad \quad =3.5+(3+\beta^*)P$<br/><br/>
-$E(Y|P,rincome)=2+\beta^* P+3E(rincome|P,rincome)+E(\tilde{\epsilon} |P,rincome)$
+
+$\quad E(Y|P,rincome)=2+\beta^* P+3E(rincome|P,rincome)+E(\tilde{\epsilon} |P,rincome)$
 
 
 ## 2.3 立足點情境A.3
@@ -198,9 +199,9 @@ $E(Y|P,rincome)=2+\beta^* P+3E(rincome|P,rincome)+E(\tilde{\epsilon} |P,rincome)
 若$E(\tilde{\epsilon}|P)=0.5+2P$，說明不論使用$E(Y|P)$或$E(Y|P,rincome)$，其P之係數都不會是$\beta^*$
 ANS:
 
-$E(Y|P)=2+\beta^*P+3(0.5+P)+0.5+2P=(5+\beta^*)P+4$
+$\quad E(Y|P)=2+\beta^*P+3(0.5+P)+0.5+2P=(5+\beta^*)P+4$
 
-$E(Y|P,rincome)=2+\beta^* P+3 rincome+E(\tilde{\epsilon} |P,rincome)$
+$\quad E(Y|P,rincome)=2+\beta^* P+3 rincome+E(\tilde{\epsilon} |P,rincome)$
 
 ## 2.4 立足點情境A.3+效應情境B.1：TSLS
 
@@ -239,6 +240,7 @@ ANS:
 $\quad Y=2+\beta^*P_z+3rincome+[\tilde{\epsilon}+\beta^*(P-P_z)]$
 
 $\quad E(Y|P,rincome,Z)=2+\beta^* P_z+3 rincome+(0.5+2P)+\beta^*E(P-P_z|P,rincome,Z)$
+
 
 ######$E(P-P_z|P,rincome,Z)$ 是一個P的函數。即使此函數中的P的係數為1，$E(Y|P,rincome,Z)$中的P的係數值也不會是$\beta^*。$
 
