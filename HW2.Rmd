@@ -158,13 +158,19 @@ $$Y=Y_{-p}+\beta^* P$$
   【A.1】P與立足點中的兩部份，$\tilde{\epsilon}$及$rincome$，皆無關。
 
 說明此時$E(Y|P)$中P的係數即為$\beta^*$.
-ANS:
-$E(Y|P)=E(2+\beta^* P+3 rincome+\tilde{\epsilon} |P)$
 
-$\quad \quad \quad \quad =2+\beta^* P+3E(rincome|P)+E(\tilde{\epsilon} |P)$
+ANS：
 
-$\quad \quad \quad \quad =2+\beta^* P$
+$\begin{aligned}
+\begin{split}
+E(Y|P)
+&=E(2+\beta^*P+3 rincome+\tilde{\epsilon}|P)\\\\
+&=2+\beta^*P+3E(rincome|P)+E(\tilde{\epsilon}|P)\\\\
+&=2+\beta^*P
+\end{split}
+\end{aligned}$
 
+此時$E(Y|P)$中P的係數即為$\beta^*$
 
 ## 2.2 立足點情境A.2
 
@@ -180,16 +186,29 @@ $\quad \quad \quad \quad =2+\beta^* P$
 
 ANS:
 
-$\quad E(Y|P)=2+\beta^* P+3E(rincome|P)+E(\tilde{\epsilon} |P)$
+$\begin{matrix}
+\begin{aligned}
+\begin{split}
+E(Y|P)
+&=E(2+\beta^*P+3 rincome+\tilde{\epsilon}|P)\\\\
+&=2+\beta^* P+3E(rincome|P)+E(\tilde{\epsilon} |P)\\\\
+&=2+\beta^* P+3(0.5+P)\\\\
+&=2+\beta^* P+1.5+3P\\\\
+&=3.5+(3+\beta^*)P
+\end{split}
+\end{aligned} & \begin{aligned}
+\begin{split}
+E(Y|P,rincome)
+&=E(2+\beta^*P+3 rincome+\tilde{\epsilon}|P,rincome)\\\\
+&=E(2|P,rincome)+E(\beta^*P|P,rincome)+E(3rincome|P,rincome))+E(\tilde{\epsilon}|P,rincome)\\\\
+&=2+\beta^*P+3E(rincome|P,rincome)+E(\tilde{\epsilon}|P,rincome)\\\\
+&=2+\beta^*P+3rincome+0\\\\
+&=2+\beta^*P+3rincome
+\end{split}
+\end{aligned}
+\end{matrix}$
 
-$\quad \quad \quad \quad \quad =2+\beta^* P+3(0.5+P)$
-
-$\quad \quad \quad \quad \quad =2+\beta^* P+1.5+3P$
-
-$\quad \quad \quad \quad \quad =3.5+(3+\beta^*)P$<br/><br/>
-
-$\quad E(Y|P,rincome)=2+\beta^* P+3E(rincome|P,rincome)+E(\tilde{\epsilon} |P,rincome)$
-
+此時$E(Y|P)$中P的係數「不」為$\beta^*$，但$E(Y|P,rincome)$中P的係數為$\beta^*$
 
 ## 2.3 立足點情境A.3
 
@@ -202,11 +221,30 @@ $\quad E(Y|P,rincome)=2+\beta^* P+3E(rincome|P,rincome)+E(\tilde{\epsilon} |P,ri
 即P與$Y_{-p}$有關連：此關連性可來自於【A.2.2】中P與rincome的關連，也可來自於它與「非價格、非所得」引起的銷量之關連（即與$\tilde{\epsilon}$相關部份）
 
 若$E(\tilde{\epsilon}|P)=0.5+2P$，說明不論使用$E(Y|P)$或$E(Y|P,rincome)$，其P之係數都不會是$\beta^*$
+
 ANS:
 
-$\quad E(Y|P)=2+\beta^*P+3(0.5+P)+0.5+2P=(5+\beta^*)P+4$
+$\begin{matrix}
+\begin{aligned}
+\begin{split}
+E(Y|P)
+&=E(2+\beta^*P+3 rincome+\tilde{\epsilon}|P)\\\\
+&=2+\beta^* P+3E(rincome|P)+E(\tilde{\epsilon} |P)\\\\
+&=2+\beta^* P+3(0.5+P)+0.5+2P\\\\
+&=4+(5+\beta^*)P
+\end{split}
+\end{aligned} & \begin{aligned}
+\begin{split}
+E(Y|P,rincome)
+&=E(2+\beta^*P+3 rincome+\tilde{\epsilon}|P,rincome)\\\\
+&=2+\beta^*P+3E(rincome|P,rincome)+E(\tilde{\epsilon}|P,rincome)\\\\
+&=2+\beta^*P+3rincome+0.5+2P+0rincome\\\\
+&=2.5+(2+\beta^*)P+3rincome
+\end{split}
+\end{aligned}
+\end{matrix}$
 
-$\quad E(Y|P,rincome)=2+\beta^* P+3 rincome+E(\tilde{\epsilon} |P,rincome)$
+$不論使用E(Y|P)E(Y|P)或E(Y|P,rincome)E(Y|P,rincome)，其P之係數都不會是β^*$
 
 ## 2.4 立足點情境A.3+效應情境B.1：TSLS
 
@@ -221,12 +259,29 @@ $\quad E(Y|P,rincome)=2+\beta^* P+3 rincome+E(\tilde{\epsilon} |P,rincome)$
 即P與$Y_{-p}$有關連：此關連性可來自於【A.2.2】中P與rincome的關連，也可來自於它與「非價格、非所得」引起的銷量之關連（即與$\tilde{\epsilon}$相關部份）——以上是【A.3.1-3.2】的結果；但我們找到工具變數z，可產生【B.1】情境。
 
 若$E(\tilde{\epsilon}|P)=0.5+2P$，說明使用$E(Y|P_z,rincome)$其中$P_z$的係數會是$\beta^*$
-ANS:
-$P=E(P|z)+[P-E(P|z)]$
-$\quad =P_z+(P-P_z)$<br/><br/>
-$E(Y|P_z,rincome)=E(2+\beta^* P_z+3 rincome+\tilde{\epsilon}+\beta^*(P-P_z) |P_z,rincome)$
 
-$\quad \quad \quad \quad \quad \quad \quad \quad =2+\beta^* P_z+3 rincome$
+ANS:
+
+$\begin{aligned}
+\begin{split}
+P
+&=E(P|z)+[P-E(P|z)]\\\\
+&=P_z+(P-P_z)
+\end{split}
+\end{aligned}$
+$$\ $$
+$\begin{aligned}
+\begin{split}
+E(Y|P_z,rincome)
+&=E(2+\beta^*P_z+\beta^*(P-P_z)+3rincome+\tilde{\epsilon}|P_z,rincome)\\\\
+&=2+E(\beta^*P_z|P_z,rincome)+E(\beta^*(P-P_z)|P_z,rincome)+E(3rincome|P_z,rincome)+E(\tilde{\epsilon}|P_z,rincome)\\\\
+&=2+\beta^*P_z+3rincome 
+\end{split}
+\end{aligned}$
+$$\ $$
+$因為E(\beta^*(P-P_z)|P_z,rincome)=0 \ and \ E(\tilde{\epsilon}|P_z,rincome)=0$
+
+$所以E(Y|P_z,rincome)=2+\beta^*P_z+3rincome，P_z的係數會是\beta^*$
 
 ## 2.5 立足點情境A.3+效應情境B.1：複迴歸
 
@@ -240,14 +295,21 @@ $\quad \quad \quad \quad \quad \quad \quad \quad =2+\beta^* P_z+3 rincome$
   
 說明使用$E(Y|P,rincome,z)$其中$P$的係
 數不會是$\beta^*$.
+
 ANS:
 
-$\quad Y=2+\beta^*P_z+3rincome+[\tilde{\epsilon}+\beta^*(P-P_z)]$
+$\begin{aligned}
+\begin{split}
+E(Y|P,rincome,z)
+&=E(2+\beta^*P+3 rincome+\tilde{\epsilon}|P,rincome,z)\\\\
+&=2+E(\beta^*P|P,rincome,z)+E(3rincome|P,rincome,z)+E(\tilde{\epsilon}|P,rincome,z)\\\\
+&=2+\beta^*E(P|P,rincome,z)+3rincome 
+\end{split}
+\end{aligned}$
 
-$\quad E(Y|P,rincome,Z)=2+\beta^* P_z+3 rincome+(0.5+2P)+\beta^*E(P-P_z|P,rincome,Z)$
 
-
-######$E(P-P_z|P,rincome,Z)$ 是一個P的函數。即使此函數中的P的係數為1，$E(Y|P,rincome,Z)$中的P的係數值也不會是$\beta^*。$
+$其中"工具變數"會和"效應解釋變數"有關係，所以E(P|P,rincome,z)\ne P，P的係
+數不會是\beta^*$
 
 # 3. 替代變數
 
@@ -259,11 +321,13 @@ $$y_i=\beta^* x_i+\gamma w_i+y_{-x,-w,i}$$
 其中$x_i$為效應解釋變數，$w_i$為控制變數，故$y_{-x,-w,i}$為去除x與w影響的立足點。假設$y_{-x,-w,i}$已達成條件式獨立，故它與$x_i$不相關（注：$y_{-x,-w,i}$是立足點拆出控制變數訊息影響部份，所以它也與$w_i$無關）；因此，$E(y_i|x_i,w_i)$中$x_i$的係數會是$\beta^*$，可直接用複迴歸得到$\beta^*$的一致性估計。
 
 > 以下各題若需要額外條件，請寫清楚並依條件情境討論。
+
 ## 3.1
 
 若我們沒有真正的$x_i$資料而改成使用它的替代變數$\tilde{x}_i$進行複迴歸，且令
 $$\tilde{x}_i=x_i+\epsilon_i.$$
 請問效應解釋變數使用替代變數下，$\tilde{x}_i$的OLS估計式還有一致性嗎？（驗證$E(y_i|\tilde{x}_i,w_i)$中$\tilde{x_i}$的係數是否為$\beta^*$）要有一致性會需要什麼額外條件嗎？
+
 ANS:
 
 $\begin{aligned}
@@ -313,11 +377,13 @@ E(y_i|\tilde{x}_i,w_i)
 \end{aligned}$
 
 $$若要維持一致性，E(y_{{-\tilde{x}_i},-w_i}|\tilde{x}_i,w_i)需等於"0"這個假設需成立。$$
+
 ## 3.2
 
 若我們沒有真正的$w_i$資料而改成使用它的替代變數$\tilde{w}_i$進行複迴歸，且令
 $$\tilde{w}_i=w_i+\epsilon_i.$$
 請問控制變數使用替代變數下，$x_i$的OLS估計式還有一致性嗎？（驗證$E(y_i|x_i,\tilde{w}_i)$中$x_i$的係數是否為$\beta^*$）要有一致性會需要什麼額外條件嗎？
+
 ANS:
 
 $\begin{aligned}
@@ -347,6 +413,23 @@ y_i
 &\ \ \ \ =E(y_{-x_i}|\tilde{w_i})+y_{-x_i,-\tilde{w}_i}+\beta^*{x_i}
 \end{split}
 \end{aligned}$
+
+
+
+$$假設E(y_{-x_i}|\tilde{w_i})=\gamma \tilde{w_i}$$
+
+$\begin{aligned}
+\begin{split}
+E(y_i|x_i,\tilde{w_i})
+&=E(\beta^*{x_i}+\gamma \tilde{w_i}+y_{{-x_i},-\tilde{w_i}}|x_i,\tilde{w_i})\\\\
+&=E(\beta^*x_i|x_i,\tilde{w_i})+E(\gamma \tilde{w_i}|x_i,\tilde{w_i})+E(y_{{-x_i},-\tilde{w_i}}|x_i,\tilde{w_i})\\\\
+&=\beta^*x_i+\gamma \tilde{w_i}+E(y_{{-x_i},-\tilde{w_i}}|x_i,\tilde{w_i})\\\\
+&=\beta^*x_i+\gamma \tilde{w_i}+0\\\\
+&=\beta^*x_i+\gamma \tilde{w_i}
+\end{split}
+\end{aligned}$
+
+$$若要維持一致性，E(y_{{-x_i},-\tilde{w_i}}|x_i,\tilde{w_i})需等於"0"這個假設需成立。$$
 
 
 
