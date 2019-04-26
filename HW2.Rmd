@@ -104,7 +104,7 @@ Continue from 1.4, conduct Hausman test to see if OLS is valid for the study und
 ```{r ans15}
 summary(tsls_model2, vcov = sandwich, diagnostics = TRUE, df=Inf) -> tsls_model2_tests
 tsls_model2_tests
-#結果是: reject H_0。因此ols is not valid, we should use 2SLS.
+#結果是: not reject H_0。因此ols is not valid, we should use 2SLS.
 ```
 
 ## 1.6
