@@ -166,7 +166,7 @@ $\begin{aligned}
 E(Y|P)
 &=E(2+\beta^*P+3 rincome+\tilde{\epsilon}|P)\\\\
 &=2+\beta^*P+3E(rincome|P)+E(\tilde{\epsilon}|P)\\\\
-&=2+\beta^*P
+&=2+\beta^*P+3rincome
 \end{split}
 \end{aligned}$
 
