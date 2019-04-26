@@ -190,9 +190,9 @@ $(document).ready(function () {
 
 <p>請依狀況更改上面的name,id及group（分別代表組員姓名，學號及組號），但請勿更改下面三行的設定。</p>
 <hr />
-<p>姓名：阿花, 阿明<br />
-學號：710761001, 710661002<br />
-組號：team1<br />
+<p>姓名：余亞諺, 黃智遠, 陳廷瑋, 顏煜名<br />
+學號：710761114, 710661111, 710761119, 410573099<br />
+組號：team D<br />
 網頁：</p>
 <hr />
 <p>作業除了讓同學檢視課堂所學程式外，有些題目只會給你未教過的函數建議（純為建議，你也可以不使用），你必需使用Help或網路查尋去了解函數的正確使用；搜詢正確程式函數使用的能力，也是程式設計的基本功。</p>
@@ -202,9 +202,8 @@ $(document).ready(function () {
 <div class="section level1">
 <h1>1 實證應用</h1>
 <p>Execute the following code lines to import fertil2 data frame.</p>
-<pre class="r"><code>library(readr)</code></pre>
-<pre><code>## Warning: package 'readr' was built under R version 3.5.2</code></pre>
-<pre class="r"><code>fertil2 &lt;- read_csv(&quot;https://raw.githubusercontent.com/tpemartin/github-data/master/fertil2.csv&quot;)</code></pre>
+<pre class="r"><code>library(readr)
+fertil2 &lt;- read_csv(&quot;https://raw.githubusercontent.com/tpemartin/github-data/master/fertil2.csv&quot;)</code></pre>
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   .default = col_double()
@@ -214,34 +213,798 @@ $(document).ready(function () {
 <div id="section" class="section level2">
 <h2>1.1</h2>
 <p>Estimate the model: <span class="math display">\[children=\beta_{0}+\beta_{1}educ+\beta_{2}age+\beta_{3}age^{2}+u\]</span> by OLS, and interpret the estimates.</p>
+<pre class="r"><code>model1 &lt;- lm(children~(educ)+(age)+I(age^2), fertil2)
+summary(model1)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = children ~ (educ) + (age) + I(age^2), data = fertil2)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.8351 -0.7135 -0.0054  0.7141  7.5055 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -4.1383066  0.2405942 -17.200   &lt;2e-16 ***
+## educ        -0.0905755  0.0059207 -15.298   &lt;2e-16 ***
+## age          0.3324486  0.0165495  20.088   &lt;2e-16 ***
+## I(age^2)    -0.0026308  0.0002726  -9.651   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.46 on 4357 degrees of freedom
+## Multiple R-squared:  0.5687, Adjusted R-squared:  0.5684 
+## F-statistic:  1915 on 3 and 4357 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>#解釋: 迴歸模型的效應解釋變數為educ。educ的係數為-0.0905755，這表示母親的受教年數每增加一年會使得所生小孩的平均數量減少0.090575個。</code></pre>
 </div>
 <div id="section-1" class="section level2">
 <h2>1.2</h2>
 <p>The variable frsthalf is a dummy variable equal to one if the woman was born during the first six months of the year. Assuming that frsthalf is uncorrelated with the error term from 1.1, show that frsthalf is a reasonable IV candidate for educ. (Hint: you need to do a regression.)</p>
+<pre class="r"><code>#題目已經假定IV 滿足排除條件(即:IV和u無關)，因此我們要做的檢定是相關性檢定(weak instruments test)。
+library(sandwich)
+library(lmtest)</code></pre>
+<pre><code>## Loading required package: zoo</code></pre>
+<pre><code>## 
+## Attaching package: 'zoo'</code></pre>
+<pre><code>## The following objects are masked from 'package:base':
+## 
+##     as.Date, as.Date.numeric</code></pre>
+<pre class="r"><code>wiTest&lt;-lm(educ~frsthalf+age+I(age^2), fertil2)
+summary(wiTest,vcov=sandwich, diagonostics=T, df=Inf)-&gt;wiTest_result
+wiTest_result</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = educ ~ frsthalf + age + I(age^2), data = fertil2)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -7.9599 -2.4941  0.2663  2.2663 14.9934 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  9.6928643  0.5980686  16.207  &lt; 2e-16 ***
+## frsthalf    -0.8522854  0.1128296  -7.554 5.12e-14 ***
+## age         -0.1079504  0.0420402  -2.568   0.0103 *  
+## I(age^2)    -0.0005056  0.0006929  -0.730   0.4657    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 3.711 on 4357 degrees of freedom
+## Multiple R-squared:  0.1077, Adjusted R-squared:  0.107 
+## F-statistic: 175.2 on 3 and 4357 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>#因為F&gt;10，所以reject H_0，表示兩個工具變數並非weak IVs。</code></pre>
 </div>
 <div id="section-2" class="section level2">
 <h2>1.3</h2>
 <p>Estimate the model from part 1.1 by using frsthalf as an IV for educ. Compare the estimated effect of education with the OLS estiimate from 1.1.</p>
+<pre class="r"><code>#加入可做TSLS的package
+library(AER)</code></pre>
+<pre><code>## Loading required package: car</code></pre>
+<pre><code>## Loading required package: carData</code></pre>
+<pre><code>## Loading required package: survival</code></pre>
+<pre class="r"><code>tsls_1iv&lt;- ivreg(children~(educ)+(age)+I(age^2)|(age)+I(age^2)+(frsthalf),data=fertil2)
+library(stargazer)</code></pre>
+<pre><code>## 
+## Please cite as:</code></pre>
+<pre><code>##  Hlavac, Marek (2018). stargazer: Well-Formatted Regression and Summary Statistics Tables.</code></pre>
+<pre><code>##  R package version 5.2.2. https://CRAN.R-project.org/package=stargazer</code></pre>
+<pre class="r"><code>stargazer(model1, tsls_1iv, type=&quot;html&quot;)</code></pre>
+<table style="text-align:center">
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="2">
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="2">
+children
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+<em>OLS</em>
+</td>
+<td>
+<em>instrumental</em>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+<em></em>
+</td>
+<td>
+<em>variable</em>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+educ
+</td>
+<td>
+-0.091<sup>***</sup>
+</td>
+<td>
+-0.171<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.006)
+</td>
+<td>
+(0.053)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+age
+</td>
+<td>
+0.332<sup>***</sup>
+</td>
+<td>
+0.324<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.017)
+</td>
+<td>
+(0.018)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+I(age2)
+</td>
+<td>
+-0.003<sup>***</sup>
+</td>
+<td>
+-0.003<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.0003)
+</td>
+<td>
+(0.0003)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+-4.138<sup>***</sup>
+</td>
+<td>
+-3.388<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.241)
+</td>
+<td>
+(0.548)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+4,361
+</td>
+<td>
+4,361
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.569
+</td>
+<td>
+0.550
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.568
+</td>
+<td>
+0.550
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error (df = 4357)
+</td>
+<td>
+1.460
+</td>
+<td>
+1.491
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+1,915.196<sup>***</sup> (df = 3; 4357)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td colspan="2" style="text-align:right">
+<sup><em></sup>p&lt;0.1; <sup><strong></sup>p&lt;0.05; <sup></strong></em></sup>p&lt;0.01
+</td>
+</tr>
+</table>
+<pre class="r"><code>#迴歸模型中有IV和沒有IV下，educ的係數分別是-0.171和-0.091。這意味著加入工具變數以後，每增加受教年數一年，平均的生子數目會減少更多。</code></pre>
 </div>
 <div id="section-3" class="section level2">
 <h2>1.4</h2>
 <p>Add the binary variables electric, tv, and bicycle to the model and assume that these are exogenous. Estimate the equation by OLS and TSLS and compare the estimated coefficients on educ. Interpret the coefficient on tv and explain why television ownership has a negative effect on fertility.</p>
+<pre class="r"><code>model2&lt;- lm(children~(educ)+(age)+I(age^2)+(electric)+(tv)+(bicycle),fertil2)
+ols_model2&lt;-lm(model2, fertil2)
+tsls_model2&lt;-ivreg(children~(educ)+(age)+I(age^2)+(electric)+(tv)+(bicycle)|(age)+I(age^2)+(electric)+(tv)+(bicycle)+(frsthalf),data=fertil2)
+
+stargazer(ols_model2, tsls_model2, type=&quot;html&quot;)</code></pre>
+<table style="text-align:center">
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="2">
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="2" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="2">
+children
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+<em>OLS</em>
+</td>
+<td>
+<em>instrumental</em>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+<em></em>
+</td>
+<td>
+<em>variable</em>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+educ
+</td>
+<td>
+-0.077<sup>***</sup>
+</td>
+<td>
+-0.164<sup>**</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.006)
+</td>
+<td>
+(0.066)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+age
+</td>
+<td>
+0.340<sup>***</sup>
+</td>
+<td>
+0.328<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.016)
+</td>
+<td>
+(0.019)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+I(age2)
+</td>
+<td>
+-0.003<sup>***</sup>
+</td>
+<td>
+-0.003<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.0003)
+</td>
+<td>
+(0.0003)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+electric
+</td>
+<td>
+-0.303<sup>***</sup>
+</td>
+<td>
+-0.107
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.076)
+</td>
+<td>
+(0.166)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+tv
+</td>
+<td>
+-0.253<sup>***</sup>
+</td>
+<td>
+-0.003
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.091)
+</td>
+<td>
+(0.209)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+bicycle
+</td>
+<td>
+0.318<sup>***</sup>
+</td>
+<td>
+0.332<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.049)
+</td>
+<td>
+(0.052)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+-4.390<sup>***</sup>
+</td>
+<td>
+-3.591<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.240)
+</td>
+<td>
+(0.645)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+4,356
+</td>
+<td>
+4,356
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.576
+</td>
+<td>
+0.558
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.575
+</td>
+<td>
+0.557
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error (df = 4349)
+</td>
+<td>
+1.448
+</td>
+<td>
+1.479
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+984.921<sup>***</sup> (df = 6; 4349)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td colspan="2" style="text-align:right">
+<sup><em></sup>p&lt;0.1; <sup><strong></sup>p&lt;0.05; <sup></strong></em></sup>p&lt;0.01
+</td>
+</tr>
+</table>
+<pre class="r"><code>#新的迴歸模型中有IV和沒有IV下，educ的係數分別是-0.164和-0.077。這意味著加入工具變數以後，每增加受教年數一年，平均的生子數目會減少更多。
+
+#不管有沒有在模型中加入工具變數，tv的係數都是負的，這意味著「有沒有tv」和「生子數目」是具有負向關係(tv因為不是效應解釋變數，因此tv的數值是沒意義的)。「買得起電視機」表示這個家庭的收入有到達一定的水準，因此可以負擔的起這筆額外的費用。家庭要達到這樣的收入水準表示女性在勞動上要有更多的付出，而女性將更多的心力付出在工作上表示同時承擔了更多的工作壓力，這種生理上的壓力對女性的生育能力會產生負面的影響。</code></pre>
 </div>
 <div id="section-4" class="section level2">
 <h2>1.5</h2>
 <p>Continue from 1.4, conduct Hausman test to see if OLS is valid for the study under a 5 percent test size.</p>
+<pre class="r"><code>summary(tsls_model2, vcov = sandwich, diagnostics = TRUE, df=Inf) -&gt; tsls_model2_tests
+tsls_model2_tests</code></pre>
+<pre><code>## 
+## Call:
+## ivreg(formula = children ~ (educ) + (age) + I(age^2) + (electric) + 
+##     (tv) + (bicycle) | (age) + I(age^2) + (electric) + (tv) + 
+##     (bicycle) + (frsthalf), data = fertil2)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.9519 -0.7184  0.0290  0.7384  7.3372 
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -3.591332   0.638882  -5.621 1.90e-08 ***
+## educ        -0.163981   0.064329  -2.549   0.0108 *  
+## age          0.328145   0.021309  15.399  &lt; 2e-16 ***
+## I(age^2)    -0.002722   0.000350  -7.777 7.40e-15 ***
+## electric    -0.106531   0.158227  -0.673   0.5008    
+## tv          -0.002555   0.204261  -0.013   0.9900    
+## bicycle      0.332072   0.050643   6.557 5.48e-11 ***
+## 
+## Diagnostic tests:
+##                   df1  df2 statistic  p-value    
+## Weak instruments    1 4349    43.010 6.08e-11 ***
+## Wu-Hausman          1 4348     1.936    0.164    
+## Sargan              0   NA        NA       NA    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.479 on Inf degrees of freedom
+## Multiple R-Squared: 0.5577,  Adjusted R-squared: 0.5571 
+## Wald test:  5644 on 6 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>#結果是: reject H_0。因此ols is not valid, we should use 2SLS.</code></pre>
 </div>
 <div id="section-5" class="section level2">
 <h2>1.6</h2>
 <p>Can we test whether frsthalf is indeed exogenous for being an IV? why or why not?</p>
+<p>不可以。 此例子中m=k=1，這會使得F test的自由度為0</p>
 </div>
 <div id="section-6" class="section level2">
 <h2>1.7</h2>
 <p>If we add one more IV catholic, can we test IV exogeneity? If yes, what is the test result under a 5 percent test size.</p>
+<pre class="r"><code>#可以!因為此時m=2,k=1，F test的自由度為1。
+tsls_model3&lt;-ivreg(children~(educ)+(age)+I(age^2)+(electric)+(tv)+(bicycle)|(age)+I(age^2)+(electric)+(tv)+(bicycle)+(frsthalf)+(catholic),data=fertil2)
+
+summary(tsls_model3, vcov = sandwich, diagnostics = TRUE, df=Inf) -&gt;tsls_model3_tests
+
+tsls_model3_tests</code></pre>
+<pre><code>## 
+## Call:
+## ivreg(formula = children ~ (educ) + (age) + I(age^2) + (electric) + 
+##     (tv) + (bicycle) | (age) + I(age^2) + (electric) + (tv) + 
+##     (bicycle) + (frsthalf) + (catholic), data = fertil2)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -5.831376 -0.690834 -0.001227  0.699434  7.494791 
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -4.1450016  0.4211666  -9.842  &lt; 2e-16 ***
+## educ        -0.1034644  0.0375576  -2.755  0.00587 ** 
+## age          0.3365070  0.0198683  16.937  &lt; 2e-16 ***
+## I(age^2)    -0.0027124  0.0003487  -7.779 7.29e-15 ***
+## electric    -0.2425807  0.1085251  -2.235  0.02540 *  
+## tv          -0.1763209  0.1371249  -1.286  0.19850    
+## bicycle      0.3222414  0.0492799   6.539 6.19e-11 ***
+## 
+## Diagnostic tests:
+##                   df1  df2 statistic p-value    
+## Weak instruments    2 4348    61.257  &lt;2e-16 ***
+## Wu-Hausman          1 4348     0.520   0.471    
+## Sargan              1   NA     1.445   0.229    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.451 on Inf degrees of freedom
+## Multiple R-Squared: 0.5743,  Adjusted R-squared: 0.5737 
+## Wald test:  5829 on 6 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>#結論:Sargan test的p-value為0.229&gt;0.05，因此not reject H_0。這表示我們所取用的工具變數和誤差項無關，工具變數滿足排除條件。</code></pre>
 </div>
 <div id="section-7" class="section level2">
 <h2>1.8</h2>
 <p>Are frsthalf and catholic weak IVs?</p>
+<pre class="r"><code>summary(tsls_model3, vcov = sandwich, diagnostics = TRUE, df=Inf) -&gt;tsls_model3_tests
+
+tsls_model3_tests</code></pre>
+<pre><code>## 
+## Call:
+## ivreg(formula = children ~ (educ) + (age) + I(age^2) + (electric) + 
+##     (tv) + (bicycle) | (age) + I(age^2) + (electric) + (tv) + 
+##     (bicycle) + (frsthalf) + (catholic), data = fertil2)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -5.831376 -0.690834 -0.001227  0.699434  7.494791 
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -4.1450016  0.4211666  -9.842  &lt; 2e-16 ***
+## educ        -0.1034644  0.0375576  -2.755  0.00587 ** 
+## age          0.3365070  0.0198683  16.937  &lt; 2e-16 ***
+## I(age^2)    -0.0027124  0.0003487  -7.779 7.29e-15 ***
+## electric    -0.2425807  0.1085251  -2.235  0.02540 *  
+## tv          -0.1763209  0.1371249  -1.286  0.19850    
+## bicycle      0.3222414  0.0492799   6.539 6.19e-11 ***
+## 
+## Diagnostic tests:
+##                   df1  df2 statistic p-value    
+## Weak instruments    2 4348    61.257  &lt;2e-16 ***
+## Wu-Hausman          1 4348     0.520   0.471    
+## Sargan              1   NA     1.445   0.229    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.451 on Inf degrees of freedom
+## Multiple R-Squared: 0.5743,  Adjusted R-squared: 0.5737 
+## Wald test:  5829 on 6 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>#由Weak instruments test可見，reject H_0，表示兩個工具變數並非weak IVs。</code></pre>
 </div>
 </div>
 <div class="section level1">
@@ -252,20 +1015,13 @@ $(document).ready(function () {
 <p>B. 針對效應（產生）變數：<span class="math inline">\(P=\tilde{v}+P_z\)</span>其中<span class="math inline">\(P_z=E(P|z)\)</span>。</p>
 <p>由於是訊息拆解，所以</p>
 <blockquote>
-<p>A中的<span class="math inline">\(\tilde{\epsilon}\)</span>與<span class="math inline">\(rincome\)</span>無關。</p>
+<p>A中的<span class="math inline">\(\tilde{\epsilon}\)</span>與<span class="math inline">\(rincome\)</span>無關。 B中的<span class="math inline">\(\tilde{v}\)</span>與<span class="math inline">\(z\)</span>無關。 ## 2.1 立足點情境A.1</p>
 </blockquote>
-<blockquote>
-<p>B中的<span class="math inline">\(\tilde{v}\)</span>與<span class="math inline">\(z\)</span>無關。</p>
-</blockquote>
-<div id="a.1" class="section level2">
-<h2>2.1 立足點情境A.1</h2>
 <p>【A.1】P與立足點中的兩部份，<span class="math inline">\(\tilde{\epsilon}\)</span>及<span class="math inline">\(rincome\)</span>，皆無關。</p>
 <p>說明此時<span class="math inline">\(E(Y|P)\)</span>中P的係數即為<span class="math inline">\(\beta^*\)</span>.</p>
-<p>ANS:</p>
-<p><span class="math inline">\(E(Y|P)=E(2+\beta^* P+3 rincome+\tilde{\epsilon} |P)\)</span></p>
-<p><span class="math inline">\(\quad \quad \quad \quad =2+\beta^* P+3E(rincome|P)+E(\tilde{\epsilon} |P)\)</span></p>
-<p><span class="math inline">\(\quad \quad \quad \quad =2+\beta^* P\)</span></p>
-</div>
+<p>ANS：</p>
+<p><span class="math inline">\(\begin{aligned} \begin{split} E(Y|P) &amp;=E(2+\beta^*P+3 rincome+\tilde{\epsilon}|P)\\\\ &amp;=2+\beta^*P+3E(rincome|P)+E(\tilde{\epsilon}|P)\\\\ &amp;=2+\beta^*P \end{split} \end{aligned}\)</span></p>
+<p>此時<span class="math inline">\(E(Y|P)\)</span>中P的係數即為<span class="math inline">\(\beta^*\)</span></p>
 <div id="a.2" class="section level2">
 <h2>2.2 立足點情境A.2</h2>
 <p>此情境包含兩部份：</p>
@@ -274,11 +1030,8 @@ $(document).ready(function () {
 <p>即P與<span class="math inline">\(Y_{-p}\)</span>有關連，但此關連性來自於【A.2.2】中P與rincome的關連——即<span class="math inline">\(E(rincome|P)\)</span>部份。</p>
 <p>說明此時<span class="math inline">\(E(Y|P)\)</span>中P的係數「不」為<span class="math inline">\(\beta^*\)</span>，但<span class="math inline">\(E(Y|P,rincome)\)</span>中P的係數為<span class="math inline">\(\beta^*\)</span>。</p>
 <p>ANS:</p>
-<p><span class="math inline">\(\quad E(Y|P)=2+\beta^* P+3E(rincome|P)+E(\tilde{\epsilon} |P)\)</span></p>
-<p><span class="math inline">\(\quad \quad \quad \quad \quad =2+\beta^* P+3(0.5+P)\)</span></p>
-<p><span class="math inline">\(\quad \quad \quad \quad \quad =2+\beta^* P+1.5+3P\)</span></p>
-<p><span class="math inline">\(\quad \quad \quad \quad \quad =3.5+(3+\beta^*)P\)</span><br /><br /></p>
-<p><span class="math inline">\(E(Y|P,rincome)=2+\beta^* P+3E(rincome|P,rincome)+E(\tilde{\epsilon} |P,rincome)\)</span></p>
+<p><span class="math inline">\(\begin{matrix} \begin{aligned} \begin{split} E(Y|P) &amp;=E(2+\beta^*P+3 rincome+\tilde{\epsilon}|P)\\\\ &amp;=2+\beta^* P+3E(rincome|P)+E(\tilde{\epsilon} |P)\\\\ &amp;=2+\beta^* P+3(0.5+P)\\\\ &amp;=2+\beta^* P+1.5+3P\\\\ &amp;=3.5+(3+\beta^*)P \end{split} \end{aligned} &amp; \begin{aligned} \begin{split} E(Y|P,rincome) &amp;=E(2+\beta^*P+3 rincome+\tilde{\epsilon}|P,rincome)\\\\ &amp;=E(2|P,rincome)+E(\beta^*P|P,rincome)+E(3rincome|P,rincome))+E(\tilde{\epsilon}|P,rincome)\\\\ &amp;=2+\beta^*P+3E(rincome|P,rincome)+E(\tilde{\epsilon}|P,rincome)\\\\ &amp;=2+\beta^*P+3rincome+0\\\\ &amp;=2+\beta^*P+3rincome \end{split} \end{aligned} \end{matrix}\)</span></p>
+<p>此時<span class="math inline">\(E(Y|P)\)</span>中P的係數「不」為<span class="math inline">\(\beta^*\)</span>，但<span class="math inline">\(E(Y|P,rincome)\)</span>中P的係數為<span class="math inline">\(\beta^*\)</span></p>
 </div>
 <div id="a.3" class="section level2">
 <h2>2.3 立足點情境A.3</h2>
@@ -288,7 +1041,8 @@ $(document).ready(function () {
 <p>即P與<span class="math inline">\(Y_{-p}\)</span>有關連：此關連性可來自於【A.2.2】中P與rincome的關連，也可來自於它與「非價格、非所得」引起的銷量之關連（即與<span class="math inline">\(\tilde{\epsilon}\)</span>相關部份）</p>
 <p>若<span class="math inline">\(E(\tilde{\epsilon}|P)=0.5+2P\)</span>，說明不論使用<span class="math inline">\(E(Y|P)\)</span>或<span class="math inline">\(E(Y|P,rincome)\)</span>，其P之係數都不會是<span class="math inline">\(\beta^*\)</span></p>
 <p>ANS:</p>
-<p><span class="math inline">\(E(Y|P,rincome)=2+\beta^* P+3 rincome+E(\tilde{\epsilon} |P,rincome)\)</span></p>
+<p><span class="math inline">\(\begin{matrix} \begin{aligned} \begin{split} E(Y|P) &amp;=E(2+\beta^*P+3 rincome+\tilde{\epsilon}|P)\\\\ &amp;=2+\beta^* P+3E(rincome|P)+E(\tilde{\epsilon} |P)\\\\ &amp;=2+\beta^* P+3(0.5+P)+0.5+2P\\\\ &amp;=4+(5+\beta^*)P \end{split} \end{aligned} &amp; \begin{aligned} \begin{split} E(Y|P,rincome) &amp;=E(2+\beta^*P+3 rincome+\tilde{\epsilon}|P,rincome)\\\\ &amp;=2+\beta^*P+3E(rincome|P,rincome)+E(\tilde{\epsilon}|P,rincome)\\\\ &amp;=2+\beta^*P+3rincome+0.5+2P+0rincome\\\\ &amp;=2.5+(2+\beta^*)P+3rincome \end{split} \end{aligned} \end{matrix}\)</span></p>
+<p><span class="math inline">\(不論使用E(Y|P)E(Y|P)或E(Y|P,rincome)E(Y|P,rincome)，其P之係數都不會是β^*\)</span></p>
 </div>
 <div id="a.3b.1tsls" class="section level2">
 <h2>2.4 立足點情境A.3+效應情境B.1：TSLS</h2>
@@ -298,11 +1052,10 @@ $(document).ready(function () {
 <p>【B.1】<span class="math inline">\(P_z\)</span>與<span class="math inline">\(\tilde{\epsilon}\)</span>無關</p>
 <p>即P與<span class="math inline">\(Y_{-p}\)</span>有關連：此關連性可來自於【A.2.2】中P與rincome的關連，也可來自於它與「非價格、非所得」引起的銷量之關連（即與<span class="math inline">\(\tilde{\epsilon}\)</span>相關部份）——以上是【A.3.1-3.2】的結果；但我們找到工具變數z，可產生【B.1】情境。</p>
 <p>若<span class="math inline">\(E(\tilde{\epsilon}|P)=0.5+2P\)</span>，說明使用<span class="math inline">\(E(Y|P_z,rincome)\)</span>其中<span class="math inline">\(P_z\)</span>的係數會是<span class="math inline">\(\beta^*\)</span></p>
+<p><span class="math inline">\(\begin{aligned} \begin{split} P &amp;=E(P|z)+[P-E(P|z)]=P_z+(P-P_z) \end{split} \end{aligned}\)</span></p>
 <p>ANS:</p>
-<p><span class="math inline">\(P=E(P|z)+[P-E(P|z)]\)</span></p>
-<p><span class="math inline">\(\quad =P_z+(P-P_z)\)</span><br /><br /></p>
-<p><span class="math inline">\(E(Y|P_z,rincome)=E(2+\beta^* P_z+3 rincome+\tilde{\epsilon}+\delta |P_z,rincome)\)</span></p>
-<p><span class="math inline">\(\quad \quad \quad \quad \quad \quad \quad \quad =2+\beta^* P+3 rincome\)</span></p>
+<p><span class="math inline">\(\begin{aligned} \begin{split} E(Y|P_z,rincome) &amp;=E(2+\beta^*P_z+\beta^*(P-P_z)+3rincome+\tilde{\epsilon}|P_z,rincome)\\\\ &amp;=2+E(\beta^*P_z|P_z,rincome)+E(\beta^*(P-P_z)|P_z,rincome)+E(3rincome|P_z,rincome)+E(\tilde{\epsilon}|P_z,rincome)\\\\ &amp;=2+\beta^*P_z+3rincome \end{split} \end{aligned}\)</span> <span class="math display">\[\ \]</span> <span class="math inline">\(因為E(\beta^*(P-P_z)|P_z,rincome)=0 \ and \ E(\tilde{\epsilon}|P_z,rincome)=0\)</span></p>
+<p><span class="math inline">\(所以E(Y|P_z,rincome)=2+\beta^*P_z+3rincome，P_z的係數會是\beta^*\)</span></p>
 </div>
 <div id="a.3b.1" class="section level2">
 <h2>2.5 立足點情境A.3+效應情境B.1：複迴歸</h2>
@@ -312,13 +1065,13 @@ $(document).ready(function () {
 <p>【B.1】<span class="math inline">\(P_z\)</span>與<span class="math inline">\(\tilde{\epsilon}\)</span>無關</p>
 <p>說明使用<span class="math inline">\(E(Y|P,rincome,z)\)</span>其中<span class="math inline">\(P\)</span>的係 數不會是<span class="math inline">\(\beta^*\)</span>.</p>
 <p>ANS:</p>
-<p><span class="math inline">\(\quad E(Y|P,rincome,Z)=2+\beta^* P+3 rincome+E(\tilde{\epsilon}|P,rincome,Z)\)</span></p>
+<p><span class="math inline">\(\begin{aligned} \begin{split} E(Y|P,rincome,z) &amp;=E(2+\beta^*P+3 rincome+\tilde{\epsilon}|P,rincome,z)\\\\ &amp;=2+E(\beta^*P|P,rincome,z)+E(3rincome|P,rincome,z)+E(\tilde{\epsilon}|P,rincome,z)\\\\ &amp;=2+\beta^*E(P|P,rincome,z)+3rincome \end{split} \end{aligned}\)</span></p>
+<p><span class="math inline">\(其中&quot;工具變數&quot;會和&quot;效應解釋變數&quot;有關係，所以E(P|P,rincome,z)\ne P，P的係 數不會是\beta^*\)</span></p>
 </div>
 </div>
 <div class="section level1">
 <h1>3. 替代變數</h1>
-<p>有時資料並沒有所要的變數，但有其他具有代表性的替代變數（proxies）。如所要變數為「智商」，但智商沒有一定的衡量指標，我們常使用「IQ測驗成績」來代表智商，原因是我們認為它與「智商」有高度相關，也就是說： <span class="math display">\[IQ測驗成績_i=智商_i+ \epsilon_i,\]</span> 且兩者的correlation應該很高。要注意「智商」寫在式子右邊是因為邏輯上是智商影響IQ成績。</p>
-<p>考慮一個效應結構模型： <span class="math display">\[y_i=\beta^* x_i+\gamma w_i+y_{-x,-w,i}\]</span> 其中<span class="math inline">\(x_i\)</span>為效應解釋變數，<span class="math inline">\(w_i\)</span>為控制變數，故<span class="math inline">\(y_{-x,-w,i}\)</span>為去除x與w影響的立足點。假設<span class="math inline">\(y_{-x,-w,i}\)</span>已達成條件式獨立，故它與<span class="math inline">\(x_i\)</span>不相關（注：<span class="math inline">\(y_{-x,-w,i}\)</span>是立足點拆出控制變數訊息影響部份，所以它也與<span class="math inline">\(w_i\)</span>無關）；因此，<span class="math inline">\(E(y_i|x_i,w_i)\)</span>中<span class="math inline">\(x_i\)</span>的係數會是<span class="math inline">\(\beta^*\)</span>，可直接用複迴歸得到<span class="math inline">\(\beta^*\)</span>的一致性估計。</p>
+<p>有時資料並沒有所要的變數，但有其他具有代表性的替代變數（proxies）。如所要變數為「智商」，但智商沒有一定的衡量指標，我們常使用「IQ測驗成績」來代表智商，原因是我們認為它與「智商」有高度相關，也就是說： <span class="math display">\[IQ測驗成績_i=智商_i+ \epsilon_i,\]</span> 且兩者的correlation應該很高。要注意「智商」寫在式子右邊是因為邏輯上是智商影響IQ成績。 考慮一個效應結構模型： <span class="math display">\[y_i=\beta^* x_i+\gamma w_i+y_{-x,-w,i}\]</span> 其中<span class="math inline">\(x_i\)</span>為效應解釋變數，<span class="math inline">\(w_i\)</span>為控制變數，故<span class="math inline">\(y_{-x,-w,i}\)</span>為去除x與w影響的立足點。假設<span class="math inline">\(y_{-x,-w,i}\)</span>已達成條件式獨立，故它與<span class="math inline">\(x_i\)</span>不相關（注：<span class="math inline">\(y_{-x,-w,i}\)</span>是立足點拆出控制變數訊息影響部份，所以它也與<span class="math inline">\(w_i\)</span>無關）；因此，<span class="math inline">\(E(y_i|x_i,w_i)\)</span>中<span class="math inline">\(x_i\)</span>的係數會是<span class="math inline">\(\beta^*\)</span>，可直接用複迴歸得到<span class="math inline">\(\beta^*\)</span>的一致性估計。</p>
 <blockquote>
 <p>以下各題若需要額外條件，請寫清楚並依條件情境討論。</p>
 </blockquote>
@@ -326,27 +1079,30 @@ $(document).ready(function () {
 <h2>3.1</h2>
 <p>若我們沒有真正的<span class="math inline">\(x_i\)</span>資料而改成使用它的替代變數<span class="math inline">\(\tilde{x}_i\)</span>進行複迴歸，且令 <span class="math display">\[\tilde{x}_i=x_i+\epsilon_i.\]</span> 請問效應解釋變數使用替代變數下，<span class="math inline">\(\tilde{x}_i\)</span>的OLS估計式還有一致性嗎？（驗證<span class="math inline">\(E(y_i|\tilde{x}_i,w_i)\)</span>中<span class="math inline">\(\tilde{x_i}\)</span>的係數是否為<span class="math inline">\(\beta^*\)</span>）要有一致性會需要什麼額外條件嗎？</p>
 <p>ANS:</p>
-<p><span class="math inline">\(y_i=\beta^* (\tilde{x}-\epsilon_i)+\gamma w_i+y_{-x,-w,i}\)</span><br /><br /></p>
-<p><span class="math inline">\(E(y_i|\tilde{x}_i,w_i)=E(\beta^* (\tilde{x}-\epsilon_i)+\gamma w_i+y_{-x,-w,i}|x_i,w_i)\)</span></p>
-<p><span class="math inline">\(\quad \quad \quad \quad \quad =\beta^* \tilde{x}-\beta^*E(\epsilon_i|\tilde{x}_i,w_i)+\gamma w_i\)</span><br /><br /></p>
-<div id="if" class="section level4">
-<h4>if<br /><br /></h4>
-<p><span class="math inline">\(E(\epsilon_i|\tilde{x}_i,w_i)=0\)</span></p>
-<p><span class="math inline">\(\quad \quad \quad \quad \quad =\beta^*\tilde{x}+\gamma w_i+y_{-x,-w,i}\)</span></p>
-</div>
+<p><span class="math inline">\(\begin{aligned} \begin{split} y_i &amp;\ \ \ \ =y_{-\tilde{x}_i}+\beta^*\tilde{x}_i\\\\ &amp;\ \ \ \ =y_{-\tilde{x}_i}+\beta^*(x_i+\epsilon_i) \longrightarrow(1)式 \end{split} \end{aligned}\)</span></p>
+<p><span class="math display">\[進行訊息拆解\]</span></p>
+<p><span class="math inline">\(\begin{aligned} \begin{split} y_{-\tilde{x}_i} &amp;=E(y_{-\tilde{x}_i}|w_i)+(y_{-\tilde{x}_i}-E(y_{\tilde{x}_i}|w_i))\\\\ &amp;=E(y_{-\tilde{x}_i}|w_i)+y_{-\tilde{x}_i,-w_i} \end{split} \end{aligned}\)</span></p>
+<p><span class="math display">\[\mathbb{帶回(1)式}\]</span></p>
+<p><span class="math inline">\(\begin{aligned} \begin{split} y_i &amp;\ \ \ \ =E(y_{-\tilde{x}_i}|w_i)+(y_{-\tilde{x}_i}-E(y_{\tilde{x}_i}|w_i))+\beta^*x_i+\beta^*\epsilon_i \end{split} \end{aligned}\)</span></p>
+<p><span class="math display">\[假設E(y_{-\tilde{x}_i}|w_i)=\gamma w_i\]</span></p>
+<p><span class="math inline">\(\begin{aligned} \begin{split} E(y_i|\tilde{x}_i,w_i) &amp;=E(\beta^*x_i+\beta^*\epsilon_i+\gamma w_i+y_{-\tilde{x}_i,-w_i}|\tilde{x}_i,w_i)\\\\ &amp;=E(\beta^*x_i+\beta^*\epsilon_i|\tilde{x}_i,w_i)+E(\gamma w_i|\tilde{x}_i,w_i)+E(y_{{-\tilde{x}_i},-w_i}|\tilde{x}_i,w_i)\\\\ &amp;=E(\beta^*\tilde{x}_i|\tilde{x}_i,w_i)+E(\gamma w_i|\tilde{x}_i,w_i)+E(y_{{-\tilde{x_i}},-w_i}|\tilde{x}_i,w_i)\\\\ &amp;=\beta^*\tilde{x}_i+\gamma w_i+E(y_{{-\tilde{x}_i},-w_i}|\tilde{x}_i,w_i)\\\\ &amp;=\beta^*\tilde{x}_i+\gamma w_i+0\\\\ &amp;=\beta^*\tilde{x}_i+\gamma w_i \end{split} \end{aligned}\)</span></p>
+<p><span class="math display">\[若要維持一致性，E(y_{{-\tilde{x}_i},-w_i}|\tilde{x}_i,w_i)需等於&quot;0&quot;這個假設需成立。\]</span></p>
 </div>
 <div id="section-9" class="section level2">
 <h2>3.2</h2>
 <p>若我們沒有真正的<span class="math inline">\(w_i\)</span>資料而改成使用它的替代變數<span class="math inline">\(\tilde{w}_i\)</span>進行複迴歸，且令 <span class="math display">\[\tilde{w}_i=w_i+\epsilon_i.\]</span> 請問控制變數使用替代變數下，<span class="math inline">\(x_i\)</span>的OLS估計式還有一致性嗎？（驗證<span class="math inline">\(E(y_i|x_i,\tilde{w}_i)\)</span>中<span class="math inline">\(x_i\)</span>的係數是否為<span class="math inline">\(\beta^*\)</span>）要有一致性會需要什麼額外條件嗎？</p>
 <p>ANS:</p>
-<p><span class="math inline">\(E(y_i|x_i,\tilde{w}_i)=E(\beta^* x+\gamma (\tilde{w}-\epsilon_i)+y_{-x,-w,i}|x_i,\tilde{w}_i)\)</span></p>
-<p><span class="math inline">\(\quad \quad \quad \quad \quad =\beta^* x+\gamma E(\tilde{w}-\epsilon_i|x_i,\tilde{w}_i)+y_{-x,-w,i}\)</span></p>
-<p><span class="math inline">\(\quad \quad \quad \quad \quad =\beta^* x+\gamma \tilde{w}-\gamma E(\epsilon_i|x_i,\tilde{w}_i)+y_{-x,-w,i}\)</span><br /><br /></p>
-<div id="if-1" class="section level4">
-<h4>if <br /><br /></h4>
-<p><span class="math inline">\(E(\epsilon_i|x_i,\tilde{w}_i)=0\)</span></p>
-<p><span class="math inline">\(\quad \quad \quad \quad \quad =\beta^* x+\gamma \tilde{w}\)</span></p>
-</div>
+<p><span class="math inline">\(\begin{aligned} \begin{split} y_i &amp;\ \ \ \ =y_{-x_i}+\beta^*{x_i} \longrightarrow(2)式 \end{split} \end{aligned}\)</span></p>
+<p><span class="math display">\[進行訊息拆解\]</span></p>
+<p><span class="math inline">\(\begin{aligned} \begin{split} y_{-x_i} &amp;=E(y_{-x_i}|\tilde{w_i})+(y_{-x_i}-E(y_{x_i}|\tilde{w_i}))\\\\ &amp;=E(y_{-x_i}|\tilde{w_i})+y_{-x_i,-\tilde{w}_i} \end{split} \end{aligned}\)</span></p>
+<p><span class="math display">\[\mathbb{帶回(2)式}\]</span></p>
+<p><span class="math inline">\(\begin{aligned} \begin{split} y_i &amp;\ \ \ \ =E(y_{-x_i}|\tilde{w_i})+y_{-x_i,-\tilde{w}_i}+\beta^*{x_i} \end{split} \end{aligned}\)</span></p>
+<p><span class="math display">\[假設E(y_{-x_i}|\tilde{w_i})=\gamma \tilde{w_i}\]</span></p>
+<p><span class="math inline">\(\begin{aligned} \begin{split} E(y_i|x_i,\tilde{w_i}) &amp;=E(\beta^*{x_i}+\gamma \tilde{w_i}+y_{{-x_i},-\tilde{w_i}}|x_i,\tilde{w_i})\\\\ &amp;=E(\beta^*x_i|x_i,\tilde{w_i})+E(\gamma \tilde{w_i}|x_i,\tilde{w_i})+E(y_{{-x_i},-\tilde{w_i}}|x_i,\tilde{w_i})\\\\ &amp;=\beta^*x_i+\gamma \tilde{w_i}+E(y_{{-x_i},-\tilde{w_i}}|x_i,\tilde{w_i})\\\\ &amp;=\beta^*x_i+\gamma \tilde{w_i}+0\\\\ &amp;=\beta^*x_i+\gamma \tilde{w_i} \end{split} \end{aligned}\)</span></p>
+<p><span class="math display">\[若要維持一致性，E(y_{{-x_i},-\tilde{w_i}}|x_i,\tilde{w_i})需等於&quot;0&quot;這個假設需成立。\]</span></p>
+<p><span class="math display">\[假設E(y_{-x_i}|\tilde{w_i})=\gamma \tilde{w_i}\]</span></p>
+<p><span class="math inline">\(\begin{aligned} \begin{split} E(y_i|x_i,\tilde{w_i}) &amp;=E(\beta^*{x_i}+\gamma \tilde{w_i}+y_{{-x_i},-\tilde{w_i}}|x_i,\tilde{w_i})\\\\ &amp;=E(\beta^*x_i|x_i,\tilde{w_i})+E(\gamma \tilde{w_i}|x_i,\tilde{w_i})+E(y_{{-x_i},-\tilde{w_i}}|x_i,\tilde{w_i})\\\\ &amp;=\beta^*x_i+\gamma \tilde{w_i}+E(y_{{-x_i},-\tilde{w_i}}|x_i,\tilde{w_i})\\\\ &amp;=\beta^*x_i+\gamma \tilde{w_i}+0\\\\ &amp;=\beta^*x_i+\gamma \tilde{w_i} \end{split} \end{aligned}\)</span></p>
+<p><span class="math display">\[若要維持一致性，E(y_{{-x_i},-\tilde{w_i}}|x_i,\tilde{w_i})需等於&quot;0&quot;這個假設需成立。\]</span></p>
 </div>
 </div>
 

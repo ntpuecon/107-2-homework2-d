@@ -260,16 +260,15 @@ $不論使用E(Y|P)E(Y|P)或E(Y|P,rincome)E(Y|P,rincome)，其P之係數都不�
 
 若$E(\tilde{\epsilon}|P)=0.5+2P$，說明使用$E(Y|P_z,rincome)$其中$P_z$的係數會是$\beta^*$
 
-ANS:
-
 $\begin{aligned}
 \begin{split}
 P
-&=E(P|z)+[P-E(P|z)]\\\\
-&=P_z+(P-P_z)
+&=E(P|z)+[P-E(P|z)]=P_z+(P-P_z)
 \end{split}
 \end{aligned}$
-$$\ $$
+
+ANS:
+
 $\begin{aligned}
 \begin{split}
 E(Y|P_z,rincome)
