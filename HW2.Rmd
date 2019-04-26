@@ -73,24 +73,29 @@ wiTest_result
 ## 1.3
 Estimate the model from part 1.1 by using frsthalf as an IV for educ. Compare the estimated effect of education with the OLS estiimate from 1.1.
 
-```{r ans13, results="as.is"}
+```{r ans13, results="asis"}
 #加入可做TSLS的package
 library(AER)
 tsls_1iv<- ivreg(children~(educ)+(age)+I(age^2)|(age)+I(age^2)+(frsthalf),data=fertil2)
 library(stargazer)
 stargazer(model1, tsls_1iv, type="html")
+
+#迴歸模型中有IV和沒有IV下，educ的係數分別是-0.171和-0.091。這意味著加入工具變數以後，每增加受教年數一年，平均的生子數目會減少更多。
 ```
 
 ## 1.4
 Add the binary variables electric, tv, and bicycle to the model and assume that these are exogenous. Estimate the equation by OLS and TSLS and compare the estimated coefficients on educ. Interpret the coefficient on tv and explain why television ownership has a negative effect on fertility.
 
-```{r ans14}
+```{r ans14, results="asis"}
 model2<- lm(children~(educ)+(age)+I(age^2)+(electric)+(tv)+(bicycle),fertil2)
 ols_model2<-lm(model2, fertil2)
 tsls_model2<-ivreg(children~(educ)+(age)+I(age^2)+(electric)+(tv)+(bicycle)|(age)+I(age^2)+(electric)+(tv)+(bicycle)+(frsthalf),data=fertil2)
 
 stargazer(ols_model2, tsls_model2, type="html")
-#「買得起電視機」表示這個家庭的收入有到達一定的水準，因此可以負擔的起這筆額外的費用。家庭要達到這樣的收入水準表示女性在勞動上要有更多的付出，而女性將更多的心力付出在工作上表示同時承擔了更多的工作壓力，這種生理上的壓力對女性的生育能力會產生負面的影響。
+
+#新的迴歸模型中有IV和沒有IV下，educ的係數分別是-0.164和-0.077。這意味著加入工具變數以後，每增加受教年數一年，平均的生子數目會減少更多。
+
+#不管有沒有在模型中加入工具變數，tv的係數都是負的，這意味著「有沒有tv」和「生子數目」是具有負向關係(tv因為不是效應解釋變數，因此tv的數值是沒意義的)。「買得起電視機」表示這個家庭的收入有到達一定的水準，因此可以負擔的起這筆額外的費用。家庭要達到這樣的收入水準表示女性在勞動上要有更多的付出，而女性將更多的心力付出在工作上表示同時承擔了更多的工作壓力，這種生理上的壓力對女性的生育能力會產生負面的影響。
 ```
 
 ## 1.5 
