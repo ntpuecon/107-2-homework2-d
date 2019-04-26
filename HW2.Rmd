@@ -8,9 +8,9 @@ output:
       collapsed: true
       smooth_scroll: false
 params:
-  name: ["阿花","阿明"]
-  id: [710761001,710661002]
-  group: "team1"
+  name: ["余亞諺","黃智遠","陳廷瑋","顏煜名"]
+  id: [710761114,710661111,710761119,410573099]
+  group: "team D"
   url: ""
 ---
 請依狀況更改上面的name,id及group（分別代表組員姓名，學號及組號），但請勿更改下面三行的設定。  
@@ -265,29 +265,102 @@ $$y_i=\beta^* x_i+\gamma w_i+y_{-x,-w,i}$$
 $$\tilde{x}_i=x_i+\epsilon_i.$$
 請問效應解釋變數使用替代變數下，$\tilde{x}_i$的OLS估計式還有一致性嗎？（驗證$E(y_i|\tilde{x}_i,w_i)$中$\tilde{x_i}$的係數是否為$\beta^*$）要有一致性會需要什麼額外條件嗎？
 ANS:
-$y_i=\beta^* (\tilde{x}-\epsilon_i)+\gamma w_i+y_{-x,-w,i}$<br/><br/>
 
-$E(y_i|\tilde{x}_i,w_i)=E(\beta^* (\tilde{x}-\epsilon_i)+\gamma w_i+y_{-x,-w,i}|x_i,w_i)$
+$\begin{aligned}
+\begin{split}
+y_i
+&\ \ \ \ =y_{-\tilde{x}_i}+\beta^*\tilde{x}_i\\\\
+&\ \ \ \ =y_{-\tilde{x}_i}+\beta^*(x_i+\epsilon_i)
+\longrightarrow(1)式
+\end{split}
+\end{aligned}$
 
-$\quad \quad \quad \quad \quad =\beta^* \tilde{x}-\beta^*E(\epsilon_i|\tilde{x}_i,w_i)+\gamma w_i$<br/><br/>
-####if<br/><br/>
-$E(\epsilon_i|\tilde{x}_i,w_i)=0$
-$\quad \quad \quad \quad \quad =\beta^*\tilde{x}+\gamma w_i+y_{-x,-w,i}$
+$$進行訊息拆解$$
 
+$\begin{aligned}
+\begin{split}
+y_{-\tilde{x}_i}
+&=E(y_{-\tilde{x}_i}|w_i)+(y_{-\tilde{x}_i}-E(y_{\tilde{x}_i}|w_i))\\\\
+&=E(y_{-\tilde{x}_i}|w_i)+y_{-\tilde{x}_i,-w_i}
+\end{split}
+\end{aligned}$
+
+$$\mathbb{帶回(1)式}$$
+
+
+$\begin{aligned}
+\begin{split}
+y_i
+&\ \ \ \ =E(y_{-\tilde{x}_i}|w_i)+(y_{-\tilde{x}_i}-E(y_{\tilde{x}_i}|w_i))+\beta^*x_i+\beta^*\epsilon_i
+\end{split}
+\end{aligned}$
+
+
+
+$$假設E(y_{-\tilde{x}_i}|w_i)=\gamma w_i$$
+
+
+$\begin{aligned}
+\begin{split}
+E(y_i|\tilde{x}_i,w_i)
+&=E(\beta^*x_i+\beta^*\epsilon_i+\gamma w_i+y_{-\tilde{x}_i,-w_i}|\tilde{x}_i,w_i)\\\\
+&=E(\beta^*x_i+\beta^*\epsilon_i|\tilde{x}_i,w_i)+E(\gamma w_i|\tilde{x}_i,w_i)+E(y_{{-\tilde{x}_i},-w_i}|\tilde{x}_i,w_i)\\\\
+&=E(\beta^*\tilde{x}_i|\tilde{x}_i,w_i)+E(\gamma w_i|\tilde{x}_i,w_i)+E(y_{{-\tilde{x_i}},-w_i}|\tilde{x}_i,w_i)\\\\
+&=\beta^*\tilde{x}_i+\gamma w_i+E(y_{{-\tilde{x}_i},-w_i}|\tilde{x}_i,w_i)\\\\
+&=\beta^*\tilde{x}_i+\gamma w_i+0\\\\
+&=\beta^*\tilde{x}_i+\gamma w_i
+\end{split}
+\end{aligned}$
+
+$$若要維持一致性，E(y_{{-\tilde{x}_i},-w_i}|\tilde{x}_i,w_i)需等於"0"這個假設需成立。$$
 ## 3.2
 
 若我們沒有真正的$w_i$資料而改成使用它的替代變數$\tilde{w}_i$進行複迴歸，且令
 $$\tilde{w}_i=w_i+\epsilon_i.$$
 請問控制變數使用替代變數下，$x_i$的OLS估計式還有一致性嗎？（驗證$E(y_i|x_i,\tilde{w}_i)$中$x_i$的係數是否為$\beta^*$）要有一致性會需要什麼額外條件嗎？
 ANS:
-$E(y_i|x_i,\tilde{w}_i)=E(\beta^* x+\gamma (\tilde{w}-\epsilon_i)+y_{-x,-w,i}|x_i,\tilde{w}_i)$
 
-$\quad \quad \quad \quad \quad =\beta^* x+\gamma E(\tilde{w}-\epsilon_i|x_i,\tilde{w}_i)+y_{-x,-w,i}$
+$\begin{aligned}
+\begin{split}
+y_i
+&\ \ \ \ =y_{-x_i}+\beta^*{x_i}
+\longrightarrow(2)式
+\end{split}
+\end{aligned}$
 
-$\quad \quad \quad \quad \quad =\beta^* x+\gamma \tilde{w}-\gamma E(\epsilon_i|x_i,\tilde{w}_i)+y_{-x,-w,i}$<br/><br/>
+$$進行訊息拆解$$
 
-####if <br/><br/>
+$\begin{aligned}
+\begin{split}
+y_{-x_i}
+&=E(y_{-x_i}|\tilde{w_i})+(y_{-x_i}-E(y_{x_i}|\tilde{w_i}))\\\\
+&=E(y_{-x_i}|\tilde{w_i})+y_{-x_i,-\tilde{w}_i}
+\end{split}
+\end{aligned}$
 
-$E(\epsilon_i|x_i,\tilde{w}_i)=0$
+$$\mathbb{帶回(2)式}$$
 
-$\quad \quad \quad \quad \quad =\beta^* x+\gamma \tilde{w}$
+
+$\begin{aligned}
+\begin{split}
+y_i
+&\ \ \ \ =E(y_{-x_i}|\tilde{w_i})+y_{-x_i,-\tilde{w}_i}+\beta^*{x_i}
+\end{split}
+\end{aligned}$
+
+
+
+$$假設E(y_{-x_i}|\tilde{w_i})=\gamma \tilde{w_i}$$
+
+$\begin{aligned}
+\begin{split}
+E(y_i|x_i,\tilde{w_i})
+&=E(\beta^*{x_i}+\gamma \tilde{w_i}+y_{{-x_i},-\tilde{w_i}}|x_i,\tilde{w_i})\\\\
+&=E(\beta^*x_i|x_i,\tilde{w_i})+E(\gamma \tilde{w_i}|x_i,\tilde{w_i})+E(y_{{-x_i},-\tilde{w_i}}|x_i,\tilde{w_i})\\\\
+&=\beta^*x_i+\gamma \tilde{w_i}+E(y_{{-x_i},-\tilde{w_i}}|x_i,\tilde{w_i})\\\\
+&=\beta^*x_i+\gamma \tilde{w_i}+0\\\\
+&=\beta^*x_i+\gamma \tilde{w_i}
+\end{split}
+\end{aligned}$
+
+$$若要維持一致性，E(y_{{-x_i},-\tilde{w_i}}|x_i,\tilde{w_i})需等於"0"這個假設需成立。$$
